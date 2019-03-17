@@ -13,9 +13,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 using Microsoft.EntityFrameworkCore;
-using BlueInkAPI.Data;
+using BlueInk.API.Data;
 
-namespace BlueInkAPI
+namespace BlueInk.API
 {
     public class Startup
     {

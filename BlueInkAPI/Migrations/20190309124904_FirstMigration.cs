@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace BlueInkAPI.Migrations
+namespace BlueInk.API.Migrations
 {
     public partial class FirstMigration : Migration
     {
