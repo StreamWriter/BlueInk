@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BlueInkShared
+namespace BlueInk.Shared
 {
     public class User
     {
