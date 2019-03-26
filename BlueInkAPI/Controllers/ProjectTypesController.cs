@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using BlueInk.API.Data;
 using BlueInk.Shared;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -41,6 +43,7 @@ namespace BlueInk.API.Controllers
             return Ok(projectType);
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost]
         public async Task<IActionResult> CreateProjectType([FromBody] ProjectType model)
         {
@@ -57,6 +60,7 @@ namespace BlueInk.API.Controllers
             return Ok(result);
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProjectType([FromRoute]int id, [FromBody] ProjectType model)
         {
@@ -78,6 +82,7 @@ namespace BlueInk.API.Controllers
             return Ok(model);
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProjectType([FromRoute]int id)
         {

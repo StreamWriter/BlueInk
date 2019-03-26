@@ -14,6 +14,11 @@ using Microsoft.Extensions.Options;
 
 using Microsoft.EntityFrameworkCore;
 using BlueInk.API.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using BlueInk.API.Services;
+using Microsoft.IdentityModel.Logging;
 
 namespace BlueInk.API
 {
@@ -31,6 +36,29 @@ namespace BlueInk.API
         {
             services.AddDbContext<BlueInkDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("BlueInkDb")));
+
+            services.AddSingleton<HashingService>();
+            services.Configure<AuthenticationSettings>(Configuration.GetSection("AuthenticationSettings"));
+
+            var signingKey = Encoding.UTF8.GetBytes(Configuration.GetSection("AuthenticationSettings")
+                                .GetValue<string>("JwtKey"));
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(signingKey),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
 
             services.AddMvc()
                 .AddNewtonsoftJson();

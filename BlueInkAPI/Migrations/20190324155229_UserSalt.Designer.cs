@@ -4,14 +4,16 @@ using BlueInk.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BlueInk.API.Migrations
 {
     [DbContext(typeof(BlueInkDbContext))]
-    partial class BlueInkDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190324155229_UserSalt")]
+    partial class UserSalt
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
