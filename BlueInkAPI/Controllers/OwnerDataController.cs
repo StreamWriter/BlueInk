@@ -30,7 +30,7 @@ namespace BlueInk.API.Controllers
             return Ok(socialLinks);
         }
 
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateOwnerData([FromBody] OwnerData model)
         {

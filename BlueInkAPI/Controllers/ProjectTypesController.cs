@@ -43,7 +43,7 @@ namespace BlueInk.API.Controllers
             return Ok(projectType);
         }
 
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateProjectType([FromBody] ProjectType model)
         {
@@ -60,7 +60,7 @@ namespace BlueInk.API.Controllers
             return Ok(result);
         }
 
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProjectType([FromRoute]int id, [FromBody] ProjectType model)
         {
@@ -82,7 +82,7 @@ namespace BlueInk.API.Controllers
             return Ok(model);
         }
 
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProjectType([FromRoute]int id)
         {

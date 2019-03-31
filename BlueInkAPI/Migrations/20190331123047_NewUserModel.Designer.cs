@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlueInk.API.Migrations
 {
     [DbContext(typeof(BlueInkDbContext))]
-    [Migration("20190324155229_UserSalt")]
-    partial class UserSalt
+    [Migration("20190331123047_NewUserModel")]
+    partial class NewUserModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -101,6 +101,8 @@ namespace BlueInk.API.Migrations
                     b.Property<string>("Email");
 
                     b.Property<string>("HashedPassword");
+
+                    b.Property<string>("Role");
 
                     b.Property<string>("Salt");
 

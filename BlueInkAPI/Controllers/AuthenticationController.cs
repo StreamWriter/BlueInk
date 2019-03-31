@@ -19,15 +19,15 @@ namespace BlueInk.API.Controllers
     {
         private readonly BlueInkDbContext _context;
         private readonly HashingService _hashingService;
-        private readonly AuthenticationSettings _authenticationSettings;
+        private readonly ITokenService _tokenService;
 
         public AuthenticationController(BlueInkDbContext context,
                                         HashingService hashingService,
-                                        IOptions<AuthenticationSettings> authenticationSettings)
+                                        ITokenService tokenService)
         {
             _context = context;
             _hashingService = hashingService;
-            _authenticationSettings = authenticationSettings.Value;
+            _tokenService = tokenService;
         }
 
         [HttpPost("login")]
@@ -41,7 +41,7 @@ namespace BlueInk.API.Controllers
 
                 if (hashedPassword == user.HashedPassword)
                 {
-                    return Ok(BuildToken(user.Email));
+                    return Ok(_tokenService.BuildToken(user.Email));
                 }
             }
 
@@ -60,33 +60,32 @@ namespace BlueInk.API.Controllers
 
             (string hashedPass, string salt) = _hashingService.Hash(credentials.Password);
 
-            var user = new User() { Email = credentials.Email, HashedPassword = hashedPass, Salt = salt };
+            var user = new User() { Email = credentials.Email, HashedPassword = hashedPass, Salt = salt, Role = "User" };
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return Ok(BuildToken(user.Email));
+            return Ok(_tokenService.BuildToken(user.Email, user.Role));
         }
 
-        private string BuildToken(string email)
+        [HttpPost]
+        public async Task<IActionResult> CreateOwner([FromBody]UserCredentials credentials)
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.UTF8.GetBytes(_authenticationSettings.JwtKey);
+            var adminExists = _context.Users.Any(u => u.Role == "Admin");
 
-            var tokenDescriptor = new SecurityTokenDescriptor
+            if (adminExists)
             {
-                Subject = new ClaimsIdentity(new Claim[]
-               {
-                    new Claim(ClaimTypes.Name, email)
-               }),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
+                return BadRequest("The site owner has already been initialized.");
+            }
 
-            var jwtToken = tokenHandler.CreateToken(tokenDescriptor);
-            var token = tokenHandler.WriteToken(jwtToken);
+            (string hashedPass, string salt) = _hashingService.Hash(credentials.Password);
 
-            return token;
+            var user = new User() { Email = credentials.Email, HashedPassword = hashedPass, Salt = salt, Role = "Admin" };
+
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            return Ok(_tokenService.BuildToken(user.Email, user.Role));
         }
 
     }

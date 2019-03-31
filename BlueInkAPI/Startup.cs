@@ -38,6 +38,7 @@ namespace BlueInk.API
                 options.UseSqlServer(Configuration.GetConnectionString("BlueInkDb")));
 
             services.AddSingleton<HashingService>();
+            services.AddSingleton<ITokenService, TokenService>();
             services.Configure<AuthenticationSettings>(Configuration.GetSection("AuthenticationSettings"));
 
             var signingKey = Encoding.UTF8.GetBytes(Configuration.GetSection("AuthenticationSettings")

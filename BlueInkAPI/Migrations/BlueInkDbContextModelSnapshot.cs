@@ -100,6 +100,8 @@ namespace BlueInk.API.Migrations
 
                     b.Property<string>("HashedPassword");
 
+                    b.Property<string>("Role");
+
                     b.Property<string>("Salt");
 
                     b.HasKey("Id");

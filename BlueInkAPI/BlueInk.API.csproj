@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20190324155229_UserSalt.cs" />
+    <Compile Remove="Migrations\20190324155229_UserSalt.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0-preview-19075-0444" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.0.0-preview-181114-02" />
