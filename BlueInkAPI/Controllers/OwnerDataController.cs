@@ -23,11 +23,11 @@ namespace BlueInk.API.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetOwnerData()
+        public async Task<IActionResult> GetOwnerData()
         {
-            var socialLinks = _context.OwnerData.FirstOrDefaultAsync();
+            var ownerData = await _context.OwnerData.FirstOrDefaultAsync();
 
-            return Ok(socialLinks);
+            return Ok(ownerData);
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]

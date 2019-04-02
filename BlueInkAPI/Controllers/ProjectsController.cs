@@ -25,9 +25,9 @@ namespace BlueInk.API.Controllers
         [HttpGet]
         public IActionResult GetProjects()
         {
-            var projectTypes = _context.ProjectTypes.ToList();
+            var projects = _context.Projects.ToList();
 
-            return Ok(projectTypes);
+            return Ok(projects);
         }
 
         [HttpGet("{id}")]
