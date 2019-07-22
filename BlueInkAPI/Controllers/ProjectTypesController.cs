@@ -43,6 +43,19 @@ namespace BlueInk.API.Controllers
             return Ok(projectType);
         }
 
+        [HttpGet("{id}/projects")]
+        public async Task<IActionResult> GetProjectTypeProjects([FromRoute]int id)
+        {
+            var projectType = await _context.ProjectTypes.Include(p => p.Projects).SingleOrDefaultAsync(p => p.Id == id);
+
+            if (projectType == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(projectType.Projects.Select(p => new { p.Id, p.Name, p.ProjectUri, p.Description }).ToList());
+        }
+
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateProjectType([FromBody] ProjectType model)

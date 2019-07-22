@@ -1,0 +1,22 @@
+﻿
+<div class="card @CardType" style="width: 18rem; height: 100%; float: left; margin-left: 1rem;">
+    <div class="card-body">
+        <h5 class="card-title">@Title</h5>
+        <p class="card-text">@Text</p>
+        <a href="@Link" target="_blank" class="btn btn-primary">See more...</a>
+    </div>
+</div>
+
+@functions {
+    [Parameter]
+    private string Title { get; set; }
+
+    [Parameter]
+    private string Text { get; set; }
+
+    [Parameter]
+    private string Link { get; set; }
+
+    [Parameter]
+    private string CardType { get; set; }
+}

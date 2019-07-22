@@ -1,0 +1,63 @@
+﻿@page "/"
+@inject BlueInk.WebApp.Data.BlueInkService _blueInkService
+@using BlueInk.WebApp.Shared.Components
+@using BlueInk.Shared
+
+@if (OwnerData == null)
+{
+    <h1>Loading...</h1>
+    <h4>Loading...</h4>
+
+}
+else
+{
+
+    <h1>@OwnerData.Name</h1>
+    <h4>@OwnerData.Description</h4>
+
+}
+
+@if (ProjectTypes == null)
+{
+    <h4>Loading...</h4>
+}
+else
+{
+    foreach (var projectType in ProjectTypes)
+    {
+        <CardGroup Title="@projectType.Name">
+            @foreach (var project in projectType.Projects)
+            {
+                <Card Title="@project.Name" Text="@project.Description" Link="@project.ProjectUri"></Card>
+            }
+            <ViewMoreCard Link="@GetProjectTypePageLink(projectType.Id)"></ViewMoreCard>
+        </CardGroup>
+    }
+}
+
+
+@functions {
+
+    private OwnerData OwnerData;
+    private ICollection<ProjectType>
+    ProjectTypes;
+
+    protected override async Task OnInitAsync()
+    {
+        OwnerData = await _blueInkService.GetOwnerDataAsync();
+        ProjectTypes = await _blueInkService.GetProjectTypesAsync();
+
+        Console.WriteLine("test");
+
+        foreach (var pt in ProjectTypes)
+        {
+            pt.Projects = await _blueInkService.GetProjectTypeProjectsAsync(pt.Id);
+        }
+    }
+
+    private string GetProjectTypePageLink(int projectTypeId)
+    {
+        return $"/projects/{projectTypeId}";
+    }
+
+}

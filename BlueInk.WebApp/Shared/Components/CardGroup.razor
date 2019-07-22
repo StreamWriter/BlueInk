@@ -1,0 +1,16 @@
+﻿<hr />
+<div class="card-group" style="border:none;">
+    <div class="card-body">
+        <h4 class="card-title">@Title</h4>
+        @ChildContent
+    </div>
+</div>
+
+@functions  {
+    [Parameter]
+    private string Title { get; set; }
+
+    [Parameter]
+    private RenderFragment ChildContent { get; set; }
+
+}

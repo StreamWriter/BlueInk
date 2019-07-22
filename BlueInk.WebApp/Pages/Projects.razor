@@ -1,0 +1,36 @@
+@page "/projects/{id}"
+@inject BlueInk.WebApp.Data.BlueInkService _blueInkService
+@using BlueInk.WebApp.Shared.Components
+@using BlueInk.Shared
+
+
+@if (ProjectType == null || DisplayProjects == null)
+{
+    <h1>Loading...</h1>
+}
+else
+{
+    <h1>@ProjectType.Name</h1>
+    <br />
+    @foreach (var project in DisplayProjects)
+    {
+        <Card Title="@project.Name" Text="@project.Description" Link="@project.ProjectUri"></Card>
+    }
+}
+
+
+@code {
+    [Parameter]
+    private string Id { get; set; }
+
+    private BlueInk.Shared.ProjectType ProjectType;
+    private ICollection<BlueInk.Shared.Project> DisplayProjects;
+
+    protected override async Task OnInitAsync()
+    {
+        ProjectType = await _blueInkService.GetProjectTypeAsync(int.Parse(Id));
+        DisplayProjects = await _blueInkService.GetProjectTypeProjectsAsync(int.Parse(Id));
+
+    }
+
+}

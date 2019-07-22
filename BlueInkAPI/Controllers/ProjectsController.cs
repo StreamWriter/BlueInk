@@ -33,7 +33,7 @@ namespace BlueInk.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProject([FromRoute]int id)
         {
-            var project = await _context.Projects.SingleOrDefaultAsync(p => p.Id == id);
+            var project = await _context.Projects.Include(p => p.ProjectType).SingleOrDefaultAsync(p => p.Id == id);
 
             if (project == null)
             {

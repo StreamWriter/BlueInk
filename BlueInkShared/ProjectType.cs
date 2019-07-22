@@ -9,6 +9,6 @@ namespace BlueInk.Shared
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public IList<Project> Projects { get; set; }
+        public ICollection<Project> Projects { get; set; }
     }
 }

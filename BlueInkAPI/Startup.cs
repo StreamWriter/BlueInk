@@ -63,6 +63,8 @@ namespace BlueInk.API
 
             services.AddMvc()
                 .AddNewtonsoftJson();
+
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -79,13 +81,12 @@ namespace BlueInk.API
             }
 
             app.UseHttpsRedirection();
-
-            app.UseRouting(routes =>
-            {
-                routes.MapControllers();
-            });
-
             app.UseAuthorization();
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapDefaultControllerRoute();
+            });
         }
     }
 }
