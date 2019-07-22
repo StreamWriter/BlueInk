@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using BlueInk.WebApp.Data;
+using Blazor.Extensions.Storage;
 
 namespace BlueInk.WebApp
 {
@@ -28,6 +29,7 @@ namespace BlueInk.WebApp
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<BlueInkService>();
+            services.AddStorage();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

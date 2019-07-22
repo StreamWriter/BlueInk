@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace BlueInk.WebApp.Data
@@ -16,6 +17,14 @@ namespace BlueInk.WebApp.Data
         {
             _client = new HttpClient();
             _client.BaseAddress = new Uri("https://localhost:44308");
+        }
+
+        public async Task<string> Register(UserCredentials credentials)
+        {
+            var result = await _client.PostAsync("/auth/register", new StringContent(JsonConvert.SerializeObject(credentials), Encoding.UTF8, "application/json"));
+            var content = await result.Content.ReadAsStringAsync();
+
+            return content;
         }
 
         public async Task<OwnerData> GetOwnerDataAsync()

@@ -1,0 +1,72 @@
+﻿@page "/register"
+@using BlueInk.WebApp.Shared.Components
+@using BlueInk.Shared
+@inject IUriHelper _uriHelper
+@inject BlueInk.WebApp.Data.BlueInkService _blueInkService
+@inject Blazor.Extensions.Storage.LocalStorage _localStorage
+
+<div style="margin-left:20%;margin-right:20%;">
+    <h3>Register</h3>
+    <br />
+    @if (CurrentRegisterStep == 1)
+    {
+        <EditForm ref="registerForm" Model="@UserCredentials" OnValidSubmit="@HandleRegister">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="form-group row mb-1">
+                <label class="col-sm-3 col-form-label" for="email">Email address:</label>
+                <input class="form-group" type="email" id="email" @bind="@UserCredentials.Email" />
+            </div>
+
+            <div class="form-group row mb-1">
+                <label class="col-sm-3 col-form-label" for="password">Password:</label>
+                <input class="form-group" type="password" id="password" @bind="@UserCredentials.Password" />
+            </div>
+
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </EditForm>
+    }
+    else if (CurrentRegisterStep == 2)
+    {
+        <EditForm ref="ownerDataForm" Model="@OwnerData" OnValidSubmit="@HandleOwnerData">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="form-group row mb-1">
+                <label class="col-sm-3 col-form-label" for="name">Name:</label>
+                <input class="form-group" type="text" id="name" @bind="@OwnerData.Name" />
+            </div>
+
+            <div class="form-group row mb-1">
+                <label class="col-sm-3 col-form-label" for="password">Description:</label>
+                <textarea class="form-group" cols="50" rows="10" id="description" @bind="@OwnerData.Description" />
+            </div>
+
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </EditForm>
+    }
+</div>
+
+@code {
+    private int CurrentRegisterStep = 1;
+
+    UserCredentials UserCredentials = new UserCredentials();
+    OwnerData OwnerData = new OwnerData();
+
+    private async void HandleRegister()
+    {
+        var token = await _blueInkService.Register(UserCredentials);
+        //await _localStorage.SetItem<string>("token", token);
+        CurrentRegisterStep++;
+        this.StateHasChanged();
+    }
+
+    private async void HandleOwnerData()
+    {
+        var token = await _blueInkService.Register(UserCredentials);
+        //await _localStorage.SetItem<string>("token", token);
+        CurrentRegisterStep++;
+    }
+
+}

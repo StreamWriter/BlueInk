@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace BlueInk.Shared
@@ -13,9 +14,11 @@ namespace BlueInk.Shared
         public string Role { get; set; }
     }
 
-    public struct UserCredentials
+    public class UserCredentials
     {
+        [Required]
         public string Email { get; set; }
+        [Required]
         public string Password { get; set; }
     }
 
